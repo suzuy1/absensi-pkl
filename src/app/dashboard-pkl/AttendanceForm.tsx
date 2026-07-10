@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { MapPin, Check, LogOut, Navigation, Loader2 } from 'lucide-react'
 
 interface AttendanceFormProps {
+  // Data absensi hari ini yang dikirim dari Server Component
   initialData: {
     id: number
     jam_hadir: string | null
@@ -16,21 +17,24 @@ interface AttendanceFormProps {
 }
 
 export default function AttendanceForm({ initialData }: AttendanceFormProps) {
+  // State lokal untuk menampung alamat lokasi, titik koordinat, status loading, dan notifikasi
   const [lokasi, setLokasi] = useState(initialData?.lokasi || 'Mendeteksi lokasi...')
   const [latitude, setLatitude] = useState(initialData?.latitude || '')
   const [longitude, setLongitude] = useState(initialData?.longitude || '')
-  const [loading, setLoading] = useState(false)
-  const [locating, setLocating] = useState(true)
+  const [loading, setLoading] = useState(false) // Spinner loading saat kirim data ke API
+  const [locating, setLocating] = useState(true) // Spinner loading saat melacak koordinat GPS
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const router = useRouter()
 
   useEffect(() => {
+    // Jika sudah melakukan absen masuk dan pulang hari ini, pelacakan GPS tidak diperlukan lagi
     if (initialData?.jam_hadir && initialData?.jam_pulang) {
       setLocating(false)
       return
     }
 
+    // Menggunakan Geolocation API bawaan browser untuk melacak lokasi GPS
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -40,25 +44,29 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
           setLongitude(String(lon))
 
           try {
+            // Memanggil API gratis OpenStreetMap (Nominatim) untuk menerjemahkan Lat/Lon menjadi alamat jalan fisik
             const response = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
             )
             const data = await response.json()
+            // Simpan alamat lengkap ke state lokasi
             setLokasi(data.display_name || `Lat: ${lat}, Lon: ${lon}`)
           } catch (err) {
+            // Jika API geocoding gagal, gunakan fallback koordinat mentah saja
             setLokasi(`Lat: ${lat}, Lon: ${lon} (Gagal mengambil alamat lengkap)`)
           } finally {
             setLocating(false)
           }
         },
         (error) => {
+          // Callback jika izin lokasi ditolak oleh user di browser
           setError(
             'Gagal mendeteksi lokasi. Pastikan izin GPS/Lokasi diaktifkan pada browser Anda!'
           )
           setLokasi('Izin lokasi ditolak.')
           setLocating(false)
         },
-        { enableHighAccuracy: true }
+        { enableHighAccuracy: true } // Memaksa pelacakan akurasi tinggi (menggunakan modul GPS fisik jika ada)
       )
     } else {
       setError('Browser Anda tidak mendukung Geolocation.')
@@ -66,6 +74,7 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
     }
   }, [initialData])
 
+  // Fungsi untuk mengirim data absensi ke API Route (masuk / pulang)
   const handleSubmit = async (aksi: 'masuk' | 'pulang') => {
     setLoading(true)
     setError('')
@@ -90,6 +99,7 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
       }
 
       setSuccess(data.message)
+      // Memaksa Next.js melakukan re-fetch data server-side terbaru di dashboard_pkl
       router.refresh()
     } catch (err: any) {
       setError(err.message)
@@ -107,9 +117,11 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
         </span>
       </div>
       <div className="card-body">
+        {/* Notifikasi feedback sukses / error */}
         {error && <div className="alert alert-danger">{error}</div>}
         {success && <div className="alert alert-success">{success}</div>}
 
+        {/* Input Read-Only Alamat */}
         <div className="form-group">
           <label className="form-label">📍 Lokasi Saat Ini</label>
           <textarea
@@ -127,6 +139,7 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
           </div>
         )}
 
+        {/* Render tombol secara dinamis berdasarkan status absensi hari ini */}
         <div className="mt-4">
           {locating ? (
             <button className="btn btn-secondary w-full" disabled>
@@ -134,6 +147,7 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
               Sedang Mendeteksi Lokasi...
             </button>
           ) : !initialData ? (
+            // Jika belum absen sama sekali hari ini
             <button
               onClick={() => handleSubmit('masuk')}
               disabled={loading}
@@ -149,6 +163,7 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
               )}
             </button>
           ) : !initialData.jam_pulang ? (
+            // Jika sudah absen masuk, tetapi belum absen pulang
             <button
               onClick={() => handleSubmit('pulang')}
               disabled={loading}
@@ -164,6 +179,7 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
               )}
             </button>
           ) : (
+            // Jika absen masuk dan pulang hari ini sudah lengkap
             <button className="btn btn-secondary w-full btn-lg" disabled>
               <Check size={24} />
               Absensi Hari Ini Selesai
@@ -171,6 +187,7 @@ export default function AttendanceForm({ initialData }: AttendanceFormProps) {
           )}
         </div>
 
+        {/* Tombol navigasi eksternal ke Google Maps */}
         {latitude && longitude && (
           <div className="mt-3">
             <a
