@@ -48,7 +48,12 @@ export default function LoginPage() {
   return (
     <div className="login-wrapper">
       <div className="login-card">
-        {loading && <div className="loading-bar"></div>}
+        {loading && (
+          <div className="login-loading-overlay">
+            <div className="spinner"></div>
+            <p className="loading-text">Menghubungkan ke database Supabase, mohon tunggu...</p>
+          </div>
+        )}
         <div className="login-logo text-center">
           📍
         </div>
