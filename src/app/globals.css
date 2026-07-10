@@ -629,3 +629,105 @@ body {
 .text-center { text-align: center; }
 .fw-bold { font-weight: 700; }
 .flex-grow { flex-grow: 1; }
+
+/* Mobile View Optimizations */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .navbar-user {
+    gap: 0.75rem;
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .navbar-username {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .container {
+    padding: 1rem 0.75rem;
+  }
+
+  .card {
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-header {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 0.5rem;
+  }
+
+  .btn-lg {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.65rem;
+  }
+
+  .table th, .table td {
+    padding: 0.65rem 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .form-inline-edit {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  
+  .form-inline-edit .form-control {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+
+  .form-inline-edit .btn {
+    width: 100%;
+  }
+
+  .modal-content {
+    max-width: 100%;
+    border-radius: 1rem;
+  }
+
+  .grid {
+    gap: 1rem;
+  }
+  
+  /* Form layout details on mobile */
+  .grid-cols-3.gap-2 {
+    flex-direction: column;
+    display: flex;
+    gap: 0 !important;
+  }
+}
+
