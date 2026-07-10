@@ -48,6 +48,7 @@ export default function LoginPage() {
   return (
     <div className="login-wrapper">
       <div className="login-card">
+        {loading && <div className="loading-bar"></div>}
         <div className="login-logo text-center">
           📍
         </div>
