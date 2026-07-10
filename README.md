@@ -1,112 +1,123 @@
-# 📍 Sistem Absensi PKL - Next.js & Supabase
+<p align="center">
+  <img src="./public/logo.png" alt="Sistem Absensi PKL Logo" width="140" style="border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);" />
+</p>
 
-Aplikasi Sistem Absensi Siswa/Mahasiswa PKL modern yang dibuat menggunakan **Next.js (App Router)**, **Prisma ORM**, dan database cloud **Supabase (PostgreSQL)**. Desain antarmuka dibuat secara custom menggunakan **Premium Vanilla CSS** yang responsif, dilengkapi efek glassmorphism, visual widget statistik, dan dark-mode kompatibel.
+<h1 align="center">📍 Sistem Absensi PKL</h1>
 
-Aplikasi ini mendeteksi titik koordinat GPS (Latitude & Longitude) siswa secara real-time dan menerjemahkannya menjadi alamat jalan fisik secara otomatis menggunakan API OpenStreetMap (Nominatim).
+<p align="center">
+  Aplikasi manajemen kehadiran siswa/mahasiswa magang PKL berbasis web modern. Dilengkapi dengan deteksi koordinat GPS <strong>Geolocation</strong> secara real-time, penerjemahan alamat jalan fisik melalui <strong>OpenStreetMap Reverse Geocoding API</strong>, serta visualisasi lokasi di <strong>Google Maps</strong>. 
+</p>
 
----
-
-## 🚀 Fitur Utama
-
-1. **Autentikasi Aman:** Menggunakan cookies HTTP-only yang dienkripsi menggunakan JSON Web Token (JWT) secara server-side.
-2. **Proteksi Halaman (Middleware):** Pembatasan hak akses halaman dashboard secara otomatis berdasarkan role user.
-3. **Dashboard Anak PKL:**
-   - Deteksi Geolocation (GPS) otomatis di browser.
-   - Reverse Geocoding alamat lokasi secara real-time.
-   - Tombol cepat buka koordinat di Google Maps.
-   - Sistem validasi kehadiran (absen masuk & pulang hanya bisa dilakukan sekali dalam sehari).
-4. **Dashboard Pembimbing:**
-   - Ringkasan statistik kehadiran siswa.
-   - Rekap daftar absensi siswa (nama, tanggal, jam masuk, jam pulang, alamat, dan link maps).
-   - Akses read-only yang aman.
-5. **Dashboard Admin:**
-   - Ringkasan statistik kehadiran siswa.
-   - Rekap daftar absensi siswa (nama, tanggal, jam masuk, jam pulang, alamat, dan link maps).
-   - Edit lokasi absensi secara inline dan hapus data absensi.
-   - Panel CRUD lengkap Pengelolaan Akun User (Tambah, Edit, Detail, Hapus) menggunakan modal interaktif.
+<p align="center">
+  <a href="https://nextjs.org/">
+    <img src="https://img.shields.io/badge/Next.js-15.0-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+  </a>
+  <a href="https://supabase.com/">
+    <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
+  </a>
+  <a href="https://www.prisma.io/">
+    <img src="https://img.shields.io/badge/Prisma-6.19-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma" />
+  </a>
+  <a href="https://vercel.com/">
+    <img src="https://img.shields.io/badge/Vercel-Deploy_Ready-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
+  </a>
+</p>
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Fitur Utama Aplikasi
 
-* **Framework:** Next.js 15 (React 19)
-* **Database Client:** Prisma ORM 6
-* **Database Engine:** Supabase (PostgreSQL)
-* **Styling:** Custom Vanilla CSS (dengan CSS Variables & HSL Colors)
-* **Icons:** Lucide React
+### 👤 Siswa/Anak PKL Portal
+* **Deteksi GPS Otomatis:** Otomatis mengambil data koordinat latitude dan longitude perangkat siswa saat membuka aplikasi.
+* **Reverse Geocoding:** Menerjemahkan titik koordinat koordinat menjadi alamat lengkap jalan, desa, kecamatan, dan kota secara instan melalui API Nominatim (OpenStreetMap).
+* **Validasi Kehadiran:** Sistem mencegah kecurangan. Siswa hanya diizinkan melakukan **Absen Masuk** sekali sehari dan **Absen Pulang** sekali sehari.
+* **Integrasi Maps:** Navigasi cepat untuk membuka lokasi koordinat saat ini langsung di Google Maps.
+
+### 👨‍🏫 Pembimbing Portal
+* **Statistik Real-time:** Menampilkan total siswa yang hadir, masih di kantor, dan yang sudah pulang hari ini secara dinamis.
+* **Portal Monitoring:** Akses khusus *read-only* untuk melihat rekap kehadiran seluruh anak bimbingannya secara langsung beserta titik koordinat dan alamat lengkap mereka.
+
+### 🛠️ Administrator Portal
+* **Statistik Dashboard Komprehensif:** Dashboard pemantauan grafik/angka kehadiran harian.
+* **Koreksi Data:** Kemampuan mengedit nama lokasi secara langsung di baris tabel (*inline editing*) dan menghapus log absensi bermasalah.
+* **CRUD Akun User Modern:** Panel manajemen akun user (tambah, edit password, detail profil, hapus) dalam bentuk modal interaktif yang cepat tanpa refresh halaman.
 
 ---
 
-## ⚙️ Persyaratan Sistem
+## ⚡ Teknologi yang Digunakan
 
-Pastikan perangkat Anda sudah terinstal:
-* [Node.js](https://nodejs.org/) (Versi 18 atau yang terbaru)
-* NPM (Bawaan Node.js)
+* **Framework Utama:** [Next.js 15 (App Router)](https://nextjs.org/)
+* **Runtime & Library:** React 19, TypeScript
+* **Database ORM:** [Prisma ORM 6](https://www.prisma.io/)
+* **Database Engine:** [Supabase (PostgreSQL Cloud)](https://supabase.com/)
+* **Keamanan Sesi:** Enkripsi JWT (JSON Web Token) via library `jose` disimpan di HTTP-only cookie.
+* **Hashing Password:** `bcryptjs` (kompatibel penuh dengan hash default PHP).
+* **Desain UI/Aestetika:** **Premium Vanilla CSS** (CSS Variables, native Dark Mode, layout flexbox/grid, efek Glassmorphic, dan micro-animations).
 
 ---
 
-## 💻 Langkah Menjalankan di Lokal
+## 💻 Cara Menjalankan Secara Lokal
 
-### 1. Persiapan Projek
-Pindahkan atau buka folder projek ini, lalu install semua package yang dibutuhkan:
+### 1. Kloning & Instalasi
+Instal seluruh dependensi projek yang dibutuhkan:
 ```bash
 npm install
 ```
 
-### 2. Set Up Environment Variables
-Buat akun/project baru di **[Supabase](https://supabase.com)** (gratis). Setelah itu salin URL koneksi database di bagian **Settings** ➔ **Database** ➔ **Connection Strings** (Pilih tab **Prisma**).
-
-Ubah isi file `.env` di root projek menjadi seperti ini:
+### 2. Konfigurasi Database (.env)
+Buat sebuah file `.env` di root folder projek Next.js Anda (atau edit yang sudah ada) lalu masukkan kredensial Supabase Anda:
 ```env
-# URL koneksi database Supabase (Transaction mode / port 6543)
-DATABASE_URL="postgresql://postgres.[ID_PROJECT]:[PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+# Koneksi pooling untuk client (port 6543)
+DATABASE_URL="postgresql://postgres.ydjvzeyjnwrbfwzoaoqj:Mizhuhara_22@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
 
-# URL koneksi database langsung (Direct mode / port 5432 untuk migrasi/push)
-DIRECT_URL="postgresql://postgres.[ID_PROJECT]:[PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+# Koneksi langsung untuk migrasi CLI (port 5432)
+DIRECT_URL="postgresql://postgres.ydjvzeyjnwrbfwzoaoqj:Mizhuhara_22@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
 
-# JWT Secret untuk mengenkripsi cookie sesi
-JWT_SECRET="bebas_isi_apa_saja_yang_panjang"
+# Secret Key enkripsi token sesi
+JWT_SECRET="absensi_pkl_jwt_secret_key_12345_random_string_here"
 ```
-> *Ganti `[PASSWORD]` dengan password database yang Anda buat saat pertama kali membuat project Supabase.*
 
-### 3. Sinkronisasi Database & Seeding
-Jalankan perintah ini untuk membuat tabel otomatis di Supabase dan memasukkan akun demo awal:
+### 3. Setup Database & Akun Default
+Jalankan perintah berikut di Terminal/CMD untuk mengirimkan struktur tabel dan mengisi akun demo secara otomatis:
 ```bash
-# Sinkronisasi skema tabel ke Supabase
+# Push skema tabel ke database cloud Supabase
 npx prisma db push
 
-# Masukkan data akun default
+# Masukkan data dummy & akun awal
 node prisma/seed.js
 ```
 
-### 4. Jalankan Aplikasi
-Jalankan development server:
+### 4. Jalankan Development Server
 ```bash
 npm run dev
 ```
-Buka browser dan buka alamat: **`http://localhost:3000`**
+Buka browser di alamat: **`http://localhost:3000`**
 
 ---
 
-## 🔑 Akun Demo Bawaan
+## 🔑 Kredensial Akun Default
 
-| Nama / Peran | Username | Password |
-| :--- | :--- | :--- |
-| **Administrator** | `admin` | `admin` |
-| **Pembimbing** | `pembimbing` | `pembimbing` |
-| **Siswa PKL (Alif)** | `alif` | `alif` |
-| **Siswa PKL (Fatir)** | `fatir` | `fatir` |
+Gunakan akun di bawah ini untuk menguji berbagai jenis hak akses (role):
+
+| Peran (Role) | Username | Password | Deskripsi Akses |
+| :--- | :--- | :--- | :--- |
+| **Admin** | `admin` | `admin` | Kelola akun & seluruh log absensi |
+| **Pembimbing** | `pembimbing` | `pembimbing` | Monitor kehadiran rekap siswa |
+| **Siswa PKL (Alif)** | `alif` | `alif` | Form absen masuk & pulang |
+| **Siswa PKL (Fatir)** | `fatir` | `fatir` | Form absen masuk & pulang |
 
 ---
 
-## ☁️ Cara Deploy ke Vercel (Online Selamanya)
+## ☁️ Panduan Deploy ke Vercel (Gratis)
 
-Aplikasi Next.js ini dirancang untuk sangat mudah dideploy ke **Vercel** secara gratis:
-
-1. Push projek ini ke repository **GitHub** Anda.
-2. Masuk ke **[Vercel](https://vercel.com)** dan buat project baru dengan mengimpor repo GitHub tersebut.
-3. Pada halaman konfigurasi Vercel, tambahkan tiga **Environment Variables** berikut:
-   - `DATABASE_URL` (Sesuai dengan isi file `.env` Anda)
-   - `DIRECT_URL` (Sesuai dengan isi file `.env` Anda)
-   - `JWT_SECRET` (Sesuai dengan isi file `.env` Anda)
-4. Klik **Deploy**. Selesai! Aplikasi Anda sekarang aktif di internet dan dapat diakses kapan saja dari mana saja.
+1. Buat repository baru di **GitHub** Anda, lalu hubungkan dan push projek ini:
+   ```bash
+   git add .
+   git commit -m "Migrate to Next.js & Supabase"
+   git branch -M main
+   git remote add origin [URL_REPO_GITHUB_ANDA]
+   git push -u origin main
+   ```
+2. Buka **[Vercel](https://vercel.com/)** dan import repository GitHub Anda.
+3. Di tab **Environment Variables**, masukkan 3 variabel yang ada di file `.env` (`DATABASE_URL`, `DIRECT_URL`, dan `JWT_SECRET`).
+4. Klik **Deploy**! Aplikasi Anda kini sudah online dan dapat diakses semua orang dari internet.
